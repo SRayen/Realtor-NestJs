@@ -51,4 +51,9 @@ export class AuthService {
       expiresIn: 3600000,
     });
   }
+  //generate a key to be user by the user to sign up as a (UserType)
+  generateProductKey(email: string, userType: UserType) {
+    const string = `${email}-${userType}-${process.env.PRODUCT_KEY_SECRET}`;
+    return bcrypt.hash(string, 10);
+  }
 }
