@@ -39,7 +39,9 @@ export class AuthController {
   signin(@Body() body: SigninDto) {
     return this.authService.signin(body);
   }
-
+  //Scenario:
+  //If the user is 'ADMIN' or 'REALTOR'==>he needs to get in contact with the a current admin & tell him that he wants to use
+  //the app as a 'REALTOR' or ... ===>the admin will give the user a valid key .
   @Post('/key')
   generateProductKey(@Body() { email, userType }: GenerateProductKeyDto) {
     return this.authService.generateProductKey(email, userType);

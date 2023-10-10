@@ -2,7 +2,7 @@
 CREATE TYPE "UserType" AS ENUM ('BUYER', 'REALTOR', 'ADMIN');
 
 -- CreateEnum
-CREATE TYPE "propertyType" AS ENUM ('RESIDENTIAL', 'CONDO');
+CREATE TYPE "PropertyType" AS ENUM ('RESIDENTIAL', 'CONDO');
 
 -- CreateTable
 CREATE TABLE "User" (
@@ -28,7 +28,7 @@ CREATE TABLE "Home" (
     "listed_date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "price" DOUBLE PRECISION NOT NULL,
     "land_size" DOUBLE PRECISION NOT NULL,
-    "propertyType" "propertyType" NOT NULL,
+    "propertyType" "PropertyType" NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
     "realtor_id" INTEGER NOT NULL,

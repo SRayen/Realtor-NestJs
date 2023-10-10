@@ -30,7 +30,7 @@ model User {
   relator_messages Message[] @relation("relator_messages")
 }
 
-enum propertyType {
+enum PropertyType {
   RESIDENTIAL
   CONDO
 }
@@ -44,7 +44,7 @@ model Home {
   listed_date         DateTime     @default(now())
   price               Float
   land_size           Float
-  propertyType        propertyType
+  propertyType        PropertyType
   created_at          DateTime     @default(now())
   updated_at          DateTime     @updatedAt
   images              Image[]
