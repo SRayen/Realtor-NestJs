@@ -59,6 +59,8 @@ export class HomeResponseDto {
 }
 
 class Image {
+  @IsString()
+  @IsNotEmpty()
   url: string;
 }
 
@@ -85,7 +87,7 @@ export class CreateHomeDto {
 
   @IsNumber()
   @IsPositive()
-  land_size: number;
+  landSize: number;
 
   @IsEnum(PropertyType)
   propertyType: PropertyType;
