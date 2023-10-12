@@ -17,10 +17,8 @@ import {
   ParseIntPipe,
   Body,
   UnauthorizedException,
-  UseGuards,
 } from '@nestjs/common';
 import { User, UserInfo } from 'src/user/decorators/user.decorator';
-import { AuthGuard } from 'src/guards/auth.guard';
 import { Roles } from 'src/decorators/roles.decorator';
 
 @Controller('home')
