@@ -1,5 +1,10 @@
-import { PropertyType } from '@prisma/client';
-import { CreateHomeDto, HomeResponseDto, UpdateHomeDto } from './dto/home.dto';
+import { PropertyType, UserType } from '@prisma/client';
+import {
+  CreateHomeDto,
+  HomeResponseDto,
+  InquireDto,
+  UpdateHomeDto,
+} from './dto/home.dto';
 import { HomeService } from './home.service';
 import {
   Controller,
@@ -12,8 +17,11 @@ import {
   ParseIntPipe,
   Body,
   UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
-import { User, UserInfo } from 'src/user/dto/decorators/user.decorator';
+import { User, UserInfo } from 'src/user/decorators/user.decorator';
+import { AuthGuard } from 'src/guards/auth.guard';
+import { Roles } from 'src/decorators/roles.decorator';
 
 @Controller('home')
 export class HomeController {
@@ -47,11 +55,13 @@ export class HomeController {
     return this.homeService.getHome(id);
   }
 
+  @Roles(UserType.REALTOR)
   @Post()
   createHome(@Body() body: CreateHomeDto, @User() user: UserInfo) {
     return this.homeService.createHome(body, user.id);
   }
 
+  @Roles(UserType.REALTOR)
   @Put(':id')
   async updateHome(
     @Param('id', ParseIntPipe) id: number,
@@ -65,6 +75,7 @@ export class HomeController {
     return this.homeService.updateHome(id, body);
   }
 
+  @Roles(UserType.REALTOR)
   @Delete(':id')
   async deleteHome(
     @Param('id', ParseIntPipe) id: number,
@@ -75,5 +86,28 @@ export class HomeController {
       throw new UnauthorizedException();
     }
     return this.homeService.deleteHome(id);
+  }
+
+  @Roles(UserType.BUYER)
+  @Post(':id/inquire')
+  inquire(
+    @Param('id', ParseIntPipe) homeId: number,
+    @User() user: UserInfo,
+    @Body() { message }: InquireDto,
+  ) {
+    return this.homeService.inquire(user, homeId, message);
+  }
+
+  @Roles(UserType.REALTOR)
+  @Get('/:id/messages')
+  async getHomeMessages(
+    @Param('id', ParseIntPipe) homeId: number,
+    @User() user: UserInfo,
+  ) {
+    const realtor = await this.homeService.getRealtorByHomeId(homeId);
+    if (realtor.id !== user.id) {
+      throw new UnauthorizedException();
+    }
+    return this.homeService.getHomeMessages(homeId);
   }
 }
