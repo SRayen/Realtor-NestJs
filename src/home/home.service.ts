@@ -120,7 +120,7 @@ export class HomeService {
     return new HomeResponseDto(home);
   }
 
-  async updateHome(
+  async updateHomeById(
     id: number,
     {
       address,
