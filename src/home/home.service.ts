@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateHomeDto, HomeResponseDto, UpdateHomeDto } from './dto/home.dto';
+import { HomeResponseDto, UpdateHomeDto } from './dto/home.dto';
 import { PropertyType } from '@prisma/client';
 import { UserInfo } from 'src/user/decorators/user.decorator';
 
@@ -23,16 +23,6 @@ interface CreateHomeParams {
   propertyType: PropertyType;
   images: { url: string }[];
 }
-
-// interface UpdateHomeParams {
-//   address?: string;
-//   numberOfBedrooms?: number;
-//   numberOfBathrooms?: number;
-//   city?: string;
-//   price?: number;
-//   landSize?: number;
-//   propertyType?: PropertyType;
-// }
 
 export const homeSelect = {
   id: true,
@@ -130,7 +120,7 @@ export class HomeService {
     return new HomeResponseDto(home);
   }
 
-  async updateHome(
+  async updateHomeById(
     id: number,
     {
       address,
